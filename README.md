@@ -1,1 +1,1 @@
-This repository is prepared as training demo for the 3rd Gorrila conference on **GeoAI for Biodiversity conservation**
+This repository is prepared as a training demo for the $3_{rd}$ Gorrila conference on **GeoAI for Biodiversity conservation**
