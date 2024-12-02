@@ -1,14 +1,16 @@
+import pylab as plt
 import numpy as np
 from tqdm import tqdm
 from skimage.io import imread
-import matplotlib
-matplotlib.use('TkAgg')
+# import matplotlib
+# matplotlib.use('WebAgg')
 from matplotlib import pyplot as plt
 from matplotlib.colors import from_levels_and_colors
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-
-
+import matplotlib
+# matplotlib.use("TkAgg", force=True)
+# matplotlib.get_backend() 
 
 def onehot(x, nc):
     h, w = x.shape
@@ -109,7 +111,7 @@ def get_class_weightDG(files, n_class):
   
 
 
-def plot_esalndcover(imgs, preds, refs):
+def plot_esalndcover(imgs, preds, refs, fname=None):
   
   classes = ["Tree cover", "Shrubland", 'Grassland','Cropland', 'Built-up', 'Bare/sparse vegetation',  'Permanent water bodies', 'Herbaceous wetland']
   colors = ["#006400", "#ffbb22", "#ffff4c", "#f096ff", "#fa0000", "#b4b4b4", "#0064c8", "#99ff99"]  #  "#f0f0f0", "#0096a0", "#00cf75", "#fae6a0"
@@ -137,8 +139,10 @@ def plot_esalndcover(imgs, preds, refs):
   cbar.ax.set_yticklabels(classes)
 
   for j in range(3):
-     axs[0,j].set_title(titles[j])  
+     axs[0,j].set_title(titles[j])
+  plt.savefig(fname, dpi='figure', bbox_inches='tight')  
   plt.show()
+  print('image displayed!')
 
 
 

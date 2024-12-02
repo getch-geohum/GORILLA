@@ -92,12 +92,12 @@ def predict_moaic(files, n_channel, n_class, checkpoint, out_dir, shape):
 
         pr_array_resize = transform.resize(image=pr_array,output_shape=(h, w)) # np.resize(pr_array, new_shape = (h, w))
 
-        with MemoryFile() as memfile:
-            with memfile.open(**profile) as dataset:
-                dataset.write(pr_array_resize, 1)
+        memfile = MemoryFile() # as memfile:
+        with memfile.open(**profile) as dataset:
+          dataset.write(pr_array_resize, 1)
 
             # with memfile.open() as o_dataset:
-            mosaic_container.append(memfile.open())
+        mosaic_container.append(memfile.open())
     
     # print(mosaic_container)
     mosaic, out_trans = merge(mosaic_container)
@@ -130,14 +130,14 @@ def visualize(file=None):
 
 def get_args():
     parser = argparse.ArgumentParser(description='Train the UNet on images and target masks', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-l', '--checkpoint', dest='checkpoint', type=str, default='/home/getch/ssl/GORILLA/results/esalandcover/checkpoints/ff_best_weight.pth', help='Load model from a .pth file')
+    parser.add_argument('-l', '--checkpoint', dest='checkpoint', type=str, default='/root/.cache/kagglehub/datasets/getachewworkineh/uganda-landcover/versions/4/results/esalandcover/checkpoints/tt_ff_best_weight.pth', help='Load model from a .pth file')
     parser.add_argument('-n', '--n_class', default=8, type=int, help='Number of classes in the mask/label and or model')
     parser.add_argument('-c', '--n_channel', default=4, type=int, help='Number of channels in the image')
-    parser.add_argument('-t', '--data_dir', type=str, default='/home/getch/.cache/kagglehub/datasets/getachewworkineh/uganda-landcover/versions/2/landcover_data_v2/test/images', help='train data folder')
-    parser.add_argument('-d', '--save_dir', type=str, default='/home/getch/ssl/GORILLA/results/full_preduction', help='directory to save the checkpoint and results')
+    parser.add_argument('-t', '--data_dir', type=str, default='/root/.cache/kagglehub/datasets/getachewworkineh/uganda-landcover/versions/4/landcover_data_v2/test/images', help='train data folder')
+    parser.add_argument('-d', '--save_dir', type=str, default='/content/drive/MyDrive/GORILLA-master/GORILLA-master/results/Predictions/esalandcover', help='directory to save the checkpoint and results')
     parser.add_argument('-x', '--ext', type=str, help='image and labnel file extension', default='.tif')
     parser.add_argument('-s', '--shape', type=int, default=512, help='image shape')
-    parser.add_argument('-v', '-visualize', action='store_true', help='Whether to plot the mosaic fill scene for inspection')
+    parser.add_argument('-v', '--visualize', action='store_true', help='Whether to plot the mosaic fill scene for inspection')
     return parser.parse_args()
 
 

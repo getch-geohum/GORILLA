@@ -1,3 +1,5 @@
+# import matplotlib
+# matplotlib.use("TkAgg")
 import argparse
 import logging
 import os
@@ -8,13 +10,17 @@ import torch
 import torch.nn.functional as F
 from my_model import UNet
 from dataset import LandDataset, DigitalGlobdataset
+
 import matplotlib.pyplot as plt
+# import pylab as plt
 from glob import glob
 from skimage.io import imsave
 from torch.utils.data import DataLoader
 from losses_metrics import compute_iou, computePixelAccuracy
 from utils import plot_esalndcover, plotdigital_glob, plotConfusionmatrix
-
+# # import tkinter
+# import matplotlib
+# matplotlib.use("TkAgg")
 
 def predict_batch(model,
                 imags,
@@ -50,6 +56,7 @@ def test(args):
       folds = ['preds', 'labels', 'images']
       for fold in folds:
         os.makedirs(f'{args.save_dir}/{fold}', exist_ok=True)
+    os.makedirs(args.save_dir, exist_ok=True)
     
     if args.dataset != 'digitalglobe':
       print('Loading digital globe test dataset')
@@ -121,14 +128,14 @@ def test(args):
         if args.dataset == 'digitalglobe':
             plotdigital_glob(imgs=[RAWS_[ind].cpu().numpy() for ind in inds], preds=[PREDS_[ind].cpu().numpy() for ind in inds], refs=[REFS_[ind].cpu().numpy() for ind in inds])
         else:
-            plot_esalndcover(imgs=[RAWS_[ind].cpu().numpy() for ind in inds], preds=[PREDS_[ind].cpu().numpy() for ind in inds], refs=[REFS_[ind].cpu().numpy() for ind in inds])
+            plot_esalndcover(imgs=[RAWS_[ind].cpu().numpy() for ind in inds], preds=[PREDS_[ind].cpu().numpy() for ind in inds], refs=[REFS_[ind].cpu().numpy() for ind in inds], fname=f'{args.save_dir}/{j}.png')
         
 
 def get_args():
     parser = argparse.ArgumentParser(description='Predict masks from input images', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--model', '-m', default='/home/getch/ssl/GORILLA/results/esalandcover/checkpoints/tt_ff_final_weight.pth', metavar='FILE', help="Specify the file in which the model is stored")
-    parser.add_argument('--data_dir', '-i', default='/home/getch/.cache/kagglehub/datasets/getachewworkineh/uganda-landcover/versions/2/landcover_data_v2/test', help='folder containing test direectory', required=False)
-    parser.add_argument('--save_dir', '-o', default='/home/getch/ssl/GORILLA/results/Predictions/esalandcover', help='Path to save output files')
+    parser.add_argument('--model', '-m', default='/root/.cache/kagglehub/datasets/getachewworkineh/uganda-landcover/versions/4/results/esalandcover/checkpoints/tt_ff_best_weight.pth', metavar='FILE', help="Specify the file in which the model is stored")
+    parser.add_argument('--data_dir', '-i', default='/root/.cache/kagglehub/datasets/getachewworkineh/uganda-landcover/versions/4/landcover_data_v2/test', help='folder containing test direectory', required=False)
+    parser.add_argument('--save_dir', '-o', default='/content/drive/MyDrive/GORILLA-master/GORILLA-master/results/Predictions/esalandcover', help='Path to save output files')
     parser.add_argument('--save', '-k', action='store_true', help="Do not save the output masks", default=False)
     parser.add_argument('--n_class', '-n', type=float, default=8, help="Number of classes in mask or model definition.")
     parser.add_argument('--n_channel', '-c', type=float, default=4, help="Number of input chnannels in the model definition")

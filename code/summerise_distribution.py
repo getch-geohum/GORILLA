@@ -10,10 +10,10 @@ from tqdm import tqdm
 from glob import glob
 from utils import remapLC
 
-img_dir = "/content/drive/MyDrive/samples"  # Enter Directory of all images
+img_dir = "/root/.cache/kagglehub/datasets/getachewworkineh/uganda-landcover/versions/4/landcover_data_v2"  # Enter Directory of all images
 
 
-def get_class_frequency(files, n_class=8):
+def get_class_frequency(files, n_class=11):
 
     class_freq = np.zeros(n_class, dtype=float)
 
